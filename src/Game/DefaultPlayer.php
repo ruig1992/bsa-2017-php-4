@@ -2,6 +2,7 @@
 
 namespace BinaryStudioAcademy\Game;
 
+use BinaryStudioAcademy\Game\Contracts\Room;
 use BinaryStudioAcademy\Game\Contracts\Player;
 
 class DefaultPlayer implements Player
@@ -46,7 +47,7 @@ class DefaultPlayer implements Player
      * @param string $name
      * @return $this
      */
-    public function setRoom($room): Player
+    public function setRoom(Room $room): Player
     {
         $this->room = $room;
         return $this;
@@ -69,9 +70,9 @@ class DefaultPlayer implements Player
     }
     /**
      * Get player's room
-     * @return string
+     * @return Room
      */
-    public function getRoom(): string
+    public function getRoom(): Room
     {
         return $this->room;
     }

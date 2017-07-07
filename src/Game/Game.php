@@ -3,6 +3,7 @@
 namespace BinaryStudioAcademy\Game;
 
 use BinaryStudioAcademy\Game\Contracts\Player;
+use BinaryStudioAcademy\Game\Rooms\RoomFactory;
 use BinaryStudioAcademy\Game\Contracts\Io\Reader;
 use BinaryStudioAcademy\Game\Contracts\Io\Writer;
 
@@ -31,24 +32,28 @@ class Game
         $writer->writeln("===================================");
 
         do {
-            $writer->write("Enter something: ");
-            $input = trim($reader->read());
+            try {
+                $writer->write("Enter room: ");
+                $input = trim($reader->read());
 
-            if ($input === 'error') {
-                //throw new ErrorException('Error 1');
-                //error_log('Error 1');
-                break;
-            }
+                if ($input === 'exit') {
+                    $writer->writeln('');
+                    $writer->writeln("-xxx- Game over! Bye, {$this->player->getName()}!");
+                    break;
+                }
 
-            if ($input === 'exit') {
+                $room = RoomFactory::create($input);
+
+                $writer->writeln(
+                    "--- Your room - {$room}, with coins - {$room->getAvailableCoins()}"
+                );
+
+            } catch (\Exception $e) {
+                $writer->writeln("--- Error --- {$e->getMessage()}");
+
+            } finally {
                 $writer->writeln('');
-                $writer->writeln("-xxx- Game over! Bye, {$this->player->getName()}!");
-                $writer->writeln('');
-                break;
             }
-
-            $writer->writeln("--- You entered - {$input}");
-            $writer->writeln('');
 
         } while (true);
     }
