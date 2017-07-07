@@ -2,6 +2,7 @@
 
 namespace BinaryStudioAcademy\Game;
 
+use BinaryStudioAcademy\Game\Contracts\Player;
 use BinaryStudioAcademy\Game\Contracts\Io\Reader;
 use BinaryStudioAcademy\Game\Contracts\Io\Writer;
 
@@ -9,20 +10,25 @@ class Game
 {
     const COINS_TO_WIN = 5;
 
+    protected $player;
+
+    public function __construct(Player $player)
+    {
+        $this->player = $player;
+    }
+
     public function start(Reader $reader, Writer $writer): void
     {
+        // Feel free to delete these lines
+
         $writer->writeln("You can't play yet. Please read input and convert it to commands.");
         $writer->writeln("Don't forget to create game's world.");
 
         $writer->write("Type your name: ");
-        $input = trim($reader->read());
+        $this->player->setName($reader->read());
 
-        $writer->writeln("Good luck with this game, {$input}!");
+        $writer->writeln("Good luck with this game, {$this->player->getName()}!");
         $writer->writeln("===================================");
-
-        //TODO: Implement infinite loop and process user's input
-
-        // Feel free to delete these lines
 
         do {
             $writer->write("Enter something: ");
@@ -35,11 +41,14 @@ class Game
             }
 
             if ($input === 'exit') {
-                $writer->writeln("Game over! Bye!");
+                $writer->writeln('');
+                $writer->writeln("-xxx- Game over! Bye, {$this->player->getName()}!");
+                $writer->writeln('');
                 break;
             }
 
-            $writer->writeln("--- You entered - {$input}\n");
+            $writer->writeln("--- You entered - {$input}");
+            $writer->writeln('');
 
         } while (true);
     }
