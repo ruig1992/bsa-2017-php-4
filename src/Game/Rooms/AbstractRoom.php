@@ -3,45 +3,133 @@
 namespace BinaryStudioAcademy\Game\Rooms;
 
 use BinaryStudioAcademy\Game\Contracts\Room;
+use BinaryStudioAcademy\Game\Contracts\Thing;
+use BinaryStudioAcademy\Game\Exceptions\RoomNotFound;
+use BinaryStudioAcademy\Game\Exceptions\ThingNotFound;
 
-class AbstractRoom implements Room
+abstract class AbstractRoom implements Room
 {
     /**
-     * Room's name
+     * Room name
      * @var string
      */
     protected $name;
     /**
-     * Number of coins available in the room
-     * @var int
+     * Room things
+     * @var array
      */
-    protected $availableCoins;
+    protected $things = [];
+    /**
+     * List of rooms available from the current one
+     * @var array
+     */
+    protected $availableRooms = [];
 
     public function __construct(string $name)
     {
         $this->name = $name;
-        $this->availableCoins = static::COINS_AT_START;
-    }
-
-    public function __toString()
-    {
-        return $this->getName();
     }
 
     /**
-     * Get room's name
-     * @return string
+     * PHP Magic Get
+     * @param  string $property
+     * @return mixed
      */
-    public function getName(): string
+    public function __get(string $property)
     {
-        return $this->name;
+        // Get the room name
+        if ($property === 'name') {
+            return $this->name;
+        }
+        return null;
+    }
+
+    /**
+     * Add new room that available for the current one
+     * @param Room $room
+     * @return $this
+     */
+    public function addAvailableRoom(Room $room): Room
+    {
+        $this->availableRooms[$room->getName()] = $room;
+        return $this;
     }
     /**
-     * Get number of coins available in the room
-     * @return int
+     * Get the room, that available for the current one, by its name
+     * @param  string $name
+     * @return Room
+     * @throws RoomNotFound Exception
      */
-    public function getAvailableCoins(): int
+    public function getAvailableRoom(string $name): Room
     {
-        return $this->availableCoins;
+        if (!isset($this->availableRooms[$name])) {
+            throw new RoomNotFound($name);
+        }
+        return $this->availableRooms[$name];
+    }
+    /**
+     * Add the new thing for the current room
+     * @param Thing $thing
+     * @return $this
+     */
+    public function addThing(Thing $thing): Room
+    {
+        $this->things[$thing->getName()][] = $thing;
+        return $this;
+    }
+    /**
+     * Take the thing out of the current room by its name
+     * @param string $name
+     * @return Thing
+     * @throws ThingNotFound Exception
+     */
+    public function takeThing(string $name): Thing
+    {
+        if (empty($this->things[$name])) {
+            throw new ThingNotFound($name);
+        }
+        return array_pop($this->things[$name]);
+    }
+    /**
+     * Get list of rooms available from the current one
+     * @param bool $isArray
+     * @return array|string
+     */
+    public function getAvailableRooms(bool $isArray = false)
+    {
+        if ($isArray) {
+            return $this->availableRooms;
+        }
+        return implode(', ', array_keys($this->availableRooms));
+    }
+    /**
+     * Get all things from the room or some of them by the name
+     * @param  string $name
+     * @return mixed
+     */
+    public function getThings(string $name = '')
+    {
+        if (!$name) {
+            return $this->things;
+        }
+        if (!isset($this->things[$name])) {
+            return null;
+        }
+        return $this->things[$name];
+    }
+    /**
+     * Get the count of all things or some of them by the name
+     * @param string $name
+     * @return int|null
+     */
+    public function getThingsCount(string $name = '')
+    {
+        if (!$name) {
+            return count($this->things);
+        }
+        if (!isset($this->things[$name])) {
+            return null;
+        }
+        return count($this->things[$name]);
     }
 }

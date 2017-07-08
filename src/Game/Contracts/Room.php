@@ -4,12 +4,11 @@ namespace BinaryStudioAcademy\Game\Contracts;
 
 interface Room
 {
-    /**
-     * Number of coins available in the room at the game's start
-     * @var int
-     */
-    const COINS_AT_START = 0;
-
-    public function getName(): string;
-    public function getAvailableCoins(): int;
+    public function addAvailableRoom(Room $room): self;
+    public function getAvailableRoom(string $name): self;
+    public function addThing(Thing $thing): self;
+    public function takeThing(string $name): Thing;
+    public function getAvailableRooms(bool $isArray = false);
+    public function getThings(string $name = '');
+    public function getThingsCount(string $name = '');
 }
