@@ -1,17 +1,12 @@
 <?php
 
-use BinaryStudioAcademy\Game as G;
+use BinaryStudioAcademy\Game as Game;
 
 require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/src/files/config.php';
 
-try {
-    $reader = new G\Io\CliReader();
-    $writer = new G\Io\CliWriter();
+$reader = new \BinaryStudioAcademy\Game\Io\CliReader();
+$writer = new \BinaryStudioAcademy\Game\Io\CliWriter();
 
-    $game = new G\Game(new G\DefaultPlayer);
-
-    $game->start($reader, $writer);
-
-} catch (\Exception $e) {
-    echo $e->getMessage(), PHP_EOL;
-}
+$game = new \BinaryStudioAcademy\Game\Game;
+$game->start($reader, $writer);
