@@ -4,9 +4,18 @@ namespace BinaryStudioAcademy\Game\Commands;
 
 class WhereCommand extends Command
 {
+    /**
+     * Message template
+     * @var string
+     */
     protected $msgTemplate = "You're at {room}. You can go to: {rooms_avail}.";
 
-    public function execute($params = null)
+    /**
+     * Execute the command
+     * @param  array|string $params
+     * @return string
+     */
+    public function execute($params = null): string
     {
         $room = $this->game->player->room;
 

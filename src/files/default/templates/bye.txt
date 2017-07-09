@@ -1,0 +1,4 @@
+
+Come back to the Game as soon as possible - we'll wait for you!
+Bye, {player}!
+{::image=smiley.jpg}

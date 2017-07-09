@@ -1,6 +1,6 @@
 <?php
 
-namespace BinaryStudioAcademy\Game\Rooms;
+namespace BinaryStudioAcademy\Game\Factories;
 
 use BinaryStudioAcademy\Game\Contracts\Room;
 use BinaryStudioAcademy\Game\Exceptions\RoomNotFound;
@@ -26,7 +26,7 @@ class RoomFactory
      */
     protected static function isRoomExists(string $name): Room
     {
-        $room = '\\' . __NAMESPACE__ . '\\' . $name;
+        $room = "\BinaryStudioAcademy\Game\Rooms\\{$name}";
         if (!class_exists($room) ||
             !(($room = new $room) instanceof Room)
         ) {

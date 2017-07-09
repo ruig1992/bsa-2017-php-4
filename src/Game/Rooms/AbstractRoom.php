@@ -4,8 +4,9 @@ namespace BinaryStudioAcademy\Game\Rooms;
 
 use BinaryStudioAcademy\Game\Contracts\Room;
 use BinaryStudioAcademy\Game\Contracts\Thing;
-use BinaryStudioAcademy\Game\Exceptions\RoomNotAvailable;
+
 use BinaryStudioAcademy\Game\Exceptions\ThingNotFound;
+use BinaryStudioAcademy\Game\Exceptions\RoomNotAvailable;
 
 abstract class AbstractRoom implements Room
 {

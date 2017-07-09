@@ -3,59 +3,67 @@
 namespace BinaryStudioAcademy\Game\Worlds;
 
 use BinaryStudioAcademy\Game\Contracts\Player;
+use BinaryStudioAcademy\Game\Contracts\GameWorld;
+
 use BinaryStudioAcademy\Game\Players\DefaultPlayer;
 
-use BinaryStudioAcademy\Game\Rooms\RoomFactory;
-use BinaryStudioAcademy\Game\Contracts\GameWorld;
+use BinaryStudioAcademy\Game\Factories\RoomFactory;
+use BinaryStudioAcademy\Game\Factories\ThingFactory;
+
 
 class DefaultWorld extends AbstractWorld
 {
+    /**
+     * Make the Player with the Room as his starting position in the Game
+     * @return Player
+     */
+    public function makePlayer(): Player
+    {
+        return new DefaultPlayer($this->startRoom);
+    }
+
     /**
      * Make Rooms for the DefaultWorld
      * @return $this
      */
     protected function makeRooms(array $options): GameWorld
     {
-        $this->startRoom = $options['start'];
         $this->rooms = $options['rooms'];
+        $this->startRoom = $options['start'] ?? array_keys($this->rooms)[0];
 
         foreach ($this->rooms as $room => &$data) {
-            $newRoom = RoomFactory::create($room);
+            $data['instance'] = RoomFactory::create($room);
 
-            if (!empty($data['things'])) {
-                foreach ($data['things'] as $thing => $count) {
-                    $thing = "\BinaryStudioAcademy\Game\Things\\" . ucfirst($thing);
-                    while ($count) {
-                        $newRoom->addThing(new $thing);
-                        --$count;
-                    }
-                }
-            }
+            $this->makeThings($data);
 
-            $data['instance'] = $newRoom;
-            if ($this->startRoom === $newRoom->name) {
-                $this->startRoom = $newRoom;
+            if ($this->startRoom === $data['instance']->name) {
+                $this->startRoom = $data['instance'];
             }
         }
 
-        $this->makeAvailableRooms();
-
-        return $this;
+        return $this->makeAvailableRooms();
     }
+
     /**
-     * Make Things for Rooms of the DefaultWorld
+     * Make Things for the selected room
+     * @param array $roomData
      * @return $this
      */
-    protected function makeThings(): GameWorld
+    protected function makeThings(array $roomData): GameWorld
     {
-        $hall->addThing(new Things\Coin);
-        $basement->addThing(new Things\Coin)
-            ->addThing(new Things\Coin);
-        $cabinet->addThing(new Things\Coin);
-        $bedroom->addThing(new Things\Coin);
+        if (empty($roomData['things'])) {
+            return $this;
+        }
 
+        foreach ($roomData['things'] as $thing => $count) {
+            while ($count) {
+                $roomData['instance']->addThing(ThingFactory::create($thing));
+                --$count;
+            }
+        }
         return $this;
     }
+
     /**
      * Make relations of the selected room with those available for it
      * @return $this
@@ -69,15 +77,6 @@ class DefaultWorld extends AbstractWorld
                 );
             }
         }
-
         return $this;
-    }
-    /**
-     * Make the Player with the Room as his starting position in the Game
-     * @return Player
-     */
-    public function makePlayer(): Player
-    {
-        return new DefaultPlayer($this->startRoom);
     }
 }

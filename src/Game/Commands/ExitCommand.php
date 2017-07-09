@@ -4,9 +4,18 @@ namespace BinaryStudioAcademy\Game\Commands;
 
 class ExitCommand extends Command
 {
-    protected $fileTemplate = APP_TEMPLATES . 'exit.txt';
+    /**
+     * The path to the template file
+     * @var string
+     */
+    protected $fileTemplate = 'exit.txt';
 
-    public function execute($params = null)
+    /**
+     * Execute the command
+     * @param  array|string $params
+     * @return string
+     */
+    public function execute($params = null): string
     {
         CommandManager::isFinished(true);
         return $this->getFromFile();

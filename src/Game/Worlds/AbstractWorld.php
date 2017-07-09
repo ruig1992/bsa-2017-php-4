@@ -7,7 +7,15 @@ use BinaryStudioAcademy\Game\Contracts\GameWorld;
 
 abstract class AbstractWorld implements GameWorld
 {
+    /**
+     * Rooms list of Game World
+     * @var array
+     */
     protected $rooms = [];
+    /**
+     * The room with which the player starts the game
+     * @var Room
+     */
     protected $startRoom;
 
     /**
@@ -24,10 +32,11 @@ abstract class AbstractWorld implements GameWorld
      */
     abstract protected function makeRooms(array $options): GameWorld;
     /**
-     * Make Things for Rooms of the GameWorld
+     * Make Things for the selected Room
+     * @param array $roomData
      * @return $this
      */
-    abstract protected function makeThings(): GameWorld;
+    abstract protected function makeThings(array $roomData): GameWorld;
     /**
      * Make relations of the selected room with those available for it
      * @return $this

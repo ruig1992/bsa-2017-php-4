@@ -4,9 +4,18 @@ namespace BinaryStudioAcademy\Game\Commands;
 
 class HelpCommand extends Command
 {
-    protected $fileTemplate = APP_TEMPLATES . 'help.txt';
+    /**
+     * The path to the template file
+     * @var string
+     */
+    protected $fileTemplate = 'help.txt';
 
-    public function execute($params = null)
+    /**
+     * Execute the command
+     * @param  array|string $params
+     * @return string
+     */
+    public function execute($params = null): string
     {
         return $this->getFromFile();
     }

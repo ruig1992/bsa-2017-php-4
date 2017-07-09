@@ -3,11 +3,15 @@
 namespace BinaryStudioAcademy\Game\Commands;
 
 use BinaryStudioAcademy\Game\Game;
-use BinaryStudioAcademy\Game\Exceptions\GameVictory;
 
 class GrabCommand extends Command
 {
-    public function execute($params = null)
+    /**
+     * Execute the command
+     * @param  array|string $params
+     * @return string
+     */
+    public function execute($params = null): string
     {
         $playerCoins = $this->game->player->grabCoin()->coins;
 

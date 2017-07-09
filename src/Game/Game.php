@@ -2,16 +2,14 @@
 
 namespace BinaryStudioAcademy\Game;
 
-use BinaryStudioAcademy\Game\Contracts\Io\Reader;
-use BinaryStudioAcademy\Game\Contracts\Io\Writer;
-
-use BinaryStudioAcademy\Game\Contracts\Player;
-
+use BinaryStudioAcademy\Game\Contracts\{
+    Player,
+    GameWorld,
+    Io\Reader,
+    Io\Writer
+};
 use BinaryStudioAcademy\Game\Worlds\DefaultWorld;
-use BinaryStudioAcademy\Game\Contracts\GameWorld;
-
 use BinaryStudioAcademy\Game\Commands\CommandManager;
-use BinaryStudioAcademy\Game\Exceptions\ExitFromGame;
 
 class Game
 {
@@ -35,7 +33,7 @@ class Game
     public function __construct(GameWorld $gameWorld = null)
     {
         $options = [
-            'start' => 'hall',
+            //'start' => 'hall',
             'rooms' => [
                 'hall' => [
                     'availables' => ['basement', 'corridor'],
@@ -95,9 +93,11 @@ class Game
             $this->run($reader, $writer);
 
             if (CommandManager::isFinished()) {
+                $writer->writeln(
+                    $this->commandManager->call('bye')->getMessage()
+                );
                 break;
             }
-
         } while (true);
     }
 
