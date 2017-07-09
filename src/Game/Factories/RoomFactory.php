@@ -2,36 +2,22 @@
 
 namespace BinaryStudioAcademy\Game\Factories;
 
-use BinaryStudioAcademy\Game\Contracts\Room;
-use BinaryStudioAcademy\Game\Exceptions\RoomNotFound;
-
-class RoomFactory
+class RoomFactory extends Factory
 {
     /**
-     * Create the new Room by the name
-     * @param string $name
-     * @return Room
+     * The Room instance namespace
+     * @var string
      */
-    public static function create(string $name): Room
-    {
-        $name = ucfirst(trim($name));
-        $room = self::isRoomExists($name);
-        return $room;
-    }
+    protected static $instanceNS = "\BinaryStudioAcademy\Game\Rooms\\";
     /**
-     * Checks if there is the room with the name
-     * @param  string  $name
-     * @return Room
-     * @throws RoomNotFound Exception
+     * The Room instance contract
+     * @var string
      */
-    protected static function isRoomExists(string $name): Room
-    {
-        $room = "\BinaryStudioAcademy\Game\Rooms\\{$name}";
-        if (!class_exists($room) ||
-            !(($room = new $room) instanceof Room)
-        ) {
-            throw new RoomNotFound($name);
-        }
-        return $room;
-    }
+    protected static $instanceContract = "\BinaryStudioAcademy\Game\Contracts\Room";
+    /**
+     * The Room instance NotFoundException name
+     * @var string
+     */
+    protected static $instanceExceptionName =
+        "\BinaryStudioAcademy\Game\Exceptions\RoomNotFound";
 }

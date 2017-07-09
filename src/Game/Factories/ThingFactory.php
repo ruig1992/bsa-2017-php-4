@@ -5,33 +5,22 @@ namespace BinaryStudioAcademy\Game\Factories;
 use BinaryStudioAcademy\Game\Contracts\Thing;
 use BinaryStudioAcademy\Game\Exceptions\ThingNotFound;
 
-class ThingFactory
+class ThingFactory extends Factory
 {
     /**
-     * Create the new Thing by the name
-     * @param string $name
-     * @return Thing
+     * The Thing instance namespace
+     * @var string
      */
-    public static function create(string $name): Thing
-    {
-        $name = ucfirst(trim($name));
-        $thing = self::isThingExists($name);
-        return $thing;
-    }
+    protected static $instanceNS = "\BinaryStudioAcademy\Game\Things\\";
     /**
-     * Checks if there is the thing with the name
-     * @param  string  $name
-     * @return Thing
-     * @throws ThingNotFound Exception
+     * The Thing instance contract
+     * @var string
      */
-    protected static function isThingExists(string $name): Thing
-    {
-        $thing = "\BinaryStudioAcademy\Game\Things\\{$name}";
-        if (!class_exists($thing) ||
-            !(($thing = new $thing) instanceof Thing)
-        ) {
-            throw new ThingNotFound($name);
-        }
-        return $thing;
-    }
+    protected static $instanceContract = "\BinaryStudioAcademy\Game\Contracts\Thing";
+    /**
+     * The Thing instance NotFoundException name
+     * @var string
+     */
+    protected static $instanceExceptionName =
+        "\BinaryStudioAcademy\Game\Exceptions\ThingNotFound";
 }

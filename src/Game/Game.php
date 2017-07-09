@@ -57,9 +57,11 @@ class Game
             ],
         ];
 
+        // Create the Game World and the Player
         $gameWorld = $gameWorld ?? new DefaultWorld($options);
         $this->player = $gameWorld->makePlayer();
 
+        // Initiate the Game command manager
         $this->commandManager = new CommandManager($this);
     }
 
@@ -77,11 +79,20 @@ class Game
         return null;
     }
 
+    /**
+     * The main game mode. Launches the game in a loop and polls the user input
+     * @param  Reader $reader
+     * @param  Writer $writer
+     * @return void
+     */
     public function start(Reader $reader, Writer $writer): void
     {
+        // Start the Game. Welcome message...
         $writer->writeln(
             $this->commandManager->call('start')->getMessage()
         );
+
+        // The request to enter the player's name
         $writer->write('What is your name? -> ');
         $writer->writeln(
             $this->commandManager->call('setplayer', $reader->read())
@@ -89,9 +100,12 @@ class Game
         );
 
         do {
+            // The request and the process of the action of the player
             $writer->write('Your action -> ');
             $this->run($reader, $writer);
 
+            // If the player has won or entered the "Exit" command,
+            // we end the game session
             if (CommandManager::isFinished()) {
                 $writer->writeln(
                     $this->commandManager->call('bye')->getMessage()
@@ -101,6 +115,12 @@ class Game
         } while (true);
     }
 
+    /**
+     * Starts the game in a step-by-step mode. Required for testing
+     * @param  Reader $reader
+     * @param  Writer $writer
+     * @return void
+     */
     public function run(Reader $reader, Writer $writer): void
     {
         $input = trim($reader->read());
