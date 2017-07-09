@@ -1,0 +1,3 @@
+
+Game over! Unfortunately, you did not collect all the coins...
+But do not despair! Luck will visit you!

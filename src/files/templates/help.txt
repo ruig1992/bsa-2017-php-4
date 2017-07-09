@@ -1,0 +1,11 @@
+======================================================================
+ * Available Commands: *
+======================================================================
+ * where - shows information about the current room and the possible route.
+ * status - shows information about the number of collected coins and the current room.
+ * help - shows the list of available actions.
+ * go <room> - goes into the room with the name <room>.
+ * observe - looks for coins in the room. And if they are, gives information about their availability.
+ * grab - takes one coin from the current room and puts it into your inventory.
+ * exit - finish the game.
+======================================================================
