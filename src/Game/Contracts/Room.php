@@ -10,5 +10,5 @@ interface Room
     public function takeThing(string $name): Thing;
     public function getAvailableRooms(bool $isArray = false);
     public function getThings(string $name = '');
-    public function getThingsCount(string $name = '');
+    public function getThingsCount(string $name = ''): int;
 }

@@ -2,17 +2,11 @@
 
 namespace BinaryStudioAcademy\Game\Worlds;
 
-use BinaryStudioAcademy\Game\Rooms;
-use BinaryStudioAcademy\Game\Things;
-
 use BinaryStudioAcademy\Game\Contracts\Player;
 use BinaryStudioAcademy\Game\Contracts\GameWorld;
 
 abstract class AbstractWorld implements GameWorld
 {
-    protected $name = 'Unnamed Game';
-    protected $image = '';
-
     protected $rooms = [];
     protected $startRoom;
 
@@ -22,18 +16,6 @@ abstract class AbstractWorld implements GameWorld
     public function __construct(array $options)
     {
         $this->makeRooms($options);
-            /*->makeThings()
-            ->makeAvailableRooms()*/
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function getImage(): string
-    {
-        return $this->image;
     }
 
     /**

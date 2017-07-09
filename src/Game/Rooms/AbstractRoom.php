@@ -43,6 +43,10 @@ abstract class AbstractRoom implements Room
         if ($property === 'name') {
             return $this->name;
         }
+        // Get the current count of room's coins
+        if ($property === 'coins') {
+            return $this->getThingsCount('coin');
+        }
         return null;
     }
 
@@ -122,15 +126,15 @@ abstract class AbstractRoom implements Room
     /**
      * Get the count of all things or some of them by the name
      * @param string $name
-     * @return int|null
+     * @return int
      */
-    public function getThingsCount(string $name = '')
+    public function getThingsCount(string $name = ''): int
     {
         if (!$name) {
             return count($this->things);
         }
         if (!isset($this->things[$name])) {
-            return null;
+            return 0;
         }
         return count($this->things[$name]);
     }

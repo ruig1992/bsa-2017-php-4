@@ -10,9 +10,6 @@ use BinaryStudioAcademy\Game\Contracts\GameWorld;
 
 class DefaultWorld extends AbstractWorld
 {
-    protected $name = 'The Adventures in Magic Castle';
-    protected $image = APP_IMAGES . 'castle.jpg';
-
     /**
      * Make Rooms for the DefaultWorld
      * @return $this
@@ -72,19 +69,6 @@ class DefaultWorld extends AbstractWorld
                 );
             }
         }
-
-        /*$corridor->addAvailableRoom($hall)
-            ->addAvailableRoom($cabinet)
-            ->addAvailableRoom($bedroom);
-
-        $hall->addAvailableRoom($basement)
-            ->addAvailableRoom($corridor);
-
-        $basement->addAvailableRoom($cabinet)
-            ->addAvailableRoom($hall);
-
-        $cabinet->addAvailableRoom($corridor);
-        $bedroom->addAvailableRoom($corridor);*/
 
         return $this;
     }

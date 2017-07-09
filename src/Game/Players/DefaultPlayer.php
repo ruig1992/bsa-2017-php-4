@@ -69,7 +69,7 @@ class DefaultPlayer implements Player
      */
     public function grabCoin(): Player
     {
-        $this->inventory['coins'][] = $this->room->addItem('coin');
+        $this->inventory['coins'][] = $this->room->takeThing('coin');
         return $this;
     }
     /**
@@ -79,7 +79,7 @@ class DefaultPlayer implements Player
      */
     public function goToNextRoom(string $roomName): Player
     {
-        $this->room = $this->room->getNextRoom($roomName);
+        $this->room = $this->room->getAvailableRoom($roomName);
         return $this;
     }
     /**
