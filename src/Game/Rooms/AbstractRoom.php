@@ -34,24 +34,6 @@ abstract class AbstractRoom implements Room
     }
 
     /**
-     * PHP Magic Get
-     * @param  string $property
-     * @return mixed
-     */
-    public function __get(string $property)
-    {
-        // Get the room name
-        if ($property === 'name') {
-            return $this->name;
-        }
-        // Get the current count of room's coins
-        if ($property === 'coins') {
-            return $this->getThingsCount('coin');
-        }
-        return null;
-    }
-
-    /**
      * Add new room that available for the current one
      * @param Room $room
      * @return $this
@@ -138,5 +120,23 @@ abstract class AbstractRoom implements Room
             return 0;
         }
         return count($this->things[$name]);
+    }
+
+    /**
+     * PHP Magic Get
+     * @param  string $property
+     * @return mixed
+     */
+    public function __get(string $property)
+    {
+        // Get the room name
+        if ($property === 'name') {
+            return $this->name;
+        }
+        // Get the current count of room's coins
+        if ($property === 'coins') {
+            return $this->getThingsCount('coin');
+        }
+        return null;
     }
 }

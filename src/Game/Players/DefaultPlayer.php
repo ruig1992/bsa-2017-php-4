@@ -30,28 +30,6 @@ class DefaultPlayer implements Player
     }
 
     /**
-     * PHP Magic Get
-     * @param  string $property
-     * @return mixed
-     */
-    public function __get(string $property)
-    {
-        // Get the player name
-        if ($property === 'name') {
-            return $this->name;
-        }
-        // Get the current player room
-        if ($property === 'room') {
-            return $this->room;
-        }
-        // Get the current count of player coins
-        if ($property === 'coins') {
-            return count($this->getInventory('coins') ?? []);
-        }
-        return null;
-    }
-
-    /**
      * Set player name
      * @param string $name
      * @return $this
@@ -96,5 +74,27 @@ class DefaultPlayer implements Player
             return null;
         }
         return $this->inventory[$type];
+    }
+
+    /**
+     * PHP Magic Get
+     * @param  string $property
+     * @return mixed
+     */
+    public function __get(string $property)
+    {
+        // Get the player name
+        if ($property === 'name') {
+            return $this->name;
+        }
+        // Get the current player room
+        if ($property === 'room') {
+            return $this->room;
+        }
+        // Get the current count of player coins
+        if ($property === 'coins') {
+            return count($this->getInventory('coins') ?? []);
+        }
+        return null;
     }
 }

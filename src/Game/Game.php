@@ -31,6 +31,7 @@ class Game
      */
     public function __construct(GameWorld $gameWorld = null)
     {
+        // Set the game options
         $options = require __DIR__ . '/../files/game_options.php';
 
         // Create the Game World and the Player
@@ -39,20 +40,6 @@ class Game
 
         // Initiate the Game Manager
         $this->gameManager = new GameManager($this, $options['app']);
-    }
-
-    /**
-     * PHP Magic Get
-     * @param  string $property
-     * @return mixed
-     */
-    public function __get(string $property)
-    {
-        // Get the game's player
-        if ($property === 'player') {
-            return $this->player;
-        }
-        return null;
     }
 
     /**
@@ -110,5 +97,19 @@ class Game
         $this->gameManager->call($command, $params);
         // Get and write the result of the command execution
         $writer->writeln($this->gameManager->getMessage());
+    }
+
+    /**
+     * PHP Magic Get
+     * @param  string $property
+     * @return mixed
+     */
+    public function __get(string $property)
+    {
+        // Get the game's player
+        if ($property === 'player') {
+            return $this->player;
+        }
+        return null;
     }
 }

@@ -44,23 +44,6 @@ class GameManager
     }
 
     /**
-     * PHP Magic call static func
-     * @param  string $property
-     * @return mixed
-     */
-    public static function __callStatic(string $name, array $args = [])
-    {
-        // Is game finished? (win or exit)
-        if ($name === 'isFinished') {
-            if (isset($args[0])) {
-                self::$isFinished = !!$args[0];
-            }
-            return self::$isFinished;
-        }
-        return null;
-    }
-
-    /**
      * Get Game Manager option by its name
      * @param  string $name
      * @return mixed
@@ -150,5 +133,22 @@ class GameManager
     private function getEnvRoot(): string
     {
         return getenv('PWD');
+    }
+
+    /**
+     * PHP Magic call static func
+     * @param  string $property
+     * @return mixed
+     */
+    public static function __callStatic(string $name, array $args = [])
+    {
+        // Is game finished? (win or exit)
+        if ($name === 'isFinished') {
+            if (isset($args[0])) {
+                self::$isFinished = !!$args[0];
+            }
+            return self::$isFinished;
+        }
+        return null;
     }
 }
