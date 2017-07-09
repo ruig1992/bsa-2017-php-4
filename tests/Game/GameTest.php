@@ -5,8 +5,6 @@ namespace BinaryStudioAcademyTests\Game;
 use BinaryStudioAcademy\Game\Game;
 use PHPUnit\Framework\TestCase;
 
-require __DIR__ . '/../../src/files/config.php';
-
 class GameTest extends TestCase
 {
     const TEST_COMMANDS = [

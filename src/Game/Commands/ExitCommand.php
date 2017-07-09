@@ -2,6 +2,8 @@
 
 namespace BinaryStudioAcademy\Game\Commands;
 
+use BinaryStudioAcademy\Game\GameManager;
+
 class ExitCommand extends Command
 {
     /**
@@ -17,7 +19,7 @@ class ExitCommand extends Command
      */
     public function execute($params = null): string
     {
-        CommandManager::isFinished(true);
+        GameManager::isFinished(true);
         return $this->getFromFile();
     }
 }

@@ -21,7 +21,7 @@ abstract class Factory
     protected static $instanceExceptionName = '';
 
     /**
-     * Create the new Instance by the its name
+     * Create the new Instance by its name
      * @param string $name
      * @return the Instance type
      */
@@ -32,7 +32,7 @@ abstract class Factory
         return $instance;
     }
     /**
-     * Checks does the Instance exist by the its name
+     * Checks does the Instance exist by its name
      * @param  string  $name
      * @return the Instance type
      * @throws the Instance NotFound Exception

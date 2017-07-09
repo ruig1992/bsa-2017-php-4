@@ -6,6 +6,7 @@ use Pixeler\Image;
 use Pixeler\Pixeler;
 
 use BinaryStudioAcademy\Game\Game;
+use BinaryStudioAcademy\Game\GameManager;
 
 abstract class Command
 {
@@ -31,7 +32,7 @@ abstract class Command
     public function __construct(Game $game)
     {
         $this->game = $game;
-        $this->fileTemplate = APP_TEMPLATES . $this->fileTemplate;
+        $this->fileTemplate = GameManager::get('TEMPLATES_PATH') . $this->fileTemplate;
     }
 
     /**
@@ -70,7 +71,6 @@ abstract class Command
 
                 '/{::image\s?=\s?([\w\.-]+?\.(?:jpe?g|png|gif))}/i' =>
                     function($match) {
-                        $match[1] = APP_IMAGES . $match[1];
                         return $this->renderImage($match[1]);
                     }
             ],
@@ -85,7 +85,13 @@ abstract class Command
      */
     protected function renderImage(string $image): Image
     {
-        return Pixeler::image($image, 1.0, null, .95, 1);
+        return Pixeler::image(
+            GameManager::get('IMAGES_PATH') . $image,
+            1.0,
+            null,
+            .95,
+            1
+        );
     }
 
     /**

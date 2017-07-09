@@ -9,7 +9,6 @@ use BinaryStudioAcademy\Game\Contracts\{
     Io\Writer
 };
 use BinaryStudioAcademy\Game\Worlds\DefaultWorld;
-use BinaryStudioAcademy\Game\Commands\CommandManager;
 
 class Game
 {
@@ -22,47 +21,24 @@ class Game
      */
     private $player;
     /**
-     * Game command manager
-     * @var CommandManager
+     * Game Manager
+     * @var GameManager
      */
-    private $commandManager;
+    private $gameManager;
 
     /**
      * @param GameWorld|null $gameWorld
      */
     public function __construct(GameWorld $gameWorld = null)
     {
-        $options = [
-            //'start' => 'hall',
-            'rooms' => [
-                'hall' => [
-                    'availables' => ['basement', 'corridor'],
-                    'things' => ['coin' => 1],
-                ],
-                'basement' => [
-                    'availables' => ['cabinet', 'hall'],
-                    'things' => ['coin' => 2],
-                ],
-                'corridor' => [
-                    'availables' => ['hall', 'cabinet', 'bedroom'],
-                ],
-                'cabinet' => [
-                    'availables' => ['corridor'],
-                    'things' => ['coin' => 1],
-                ],
-                'bedroom' => [
-                    'availables' => ['corridor'],
-                    'things' => ['coin' => 1],
-                ],
-            ],
-        ];
+        $options = require __DIR__ . '/../files/game_options.php';
 
         // Create the Game World and the Player
-        $gameWorld = $gameWorld ?? new DefaultWorld($options);
+        $gameWorld = $gameWorld ?? new DefaultWorld($options['game']);
         $this->player = $gameWorld->makePlayer();
 
-        // Initiate the Game command manager
-        $this->commandManager = new CommandManager($this);
+        // Initiate the Game Manager
+        $this->gameManager = new GameManager($this, $options['app']);
     }
 
     /**
@@ -89,13 +65,13 @@ class Game
     {
         // Start the Game. Welcome message...
         $writer->writeln(
-            $this->commandManager->call('start')->getMessage()
+            $this->gameManager->call('start')->getMessage()
         );
 
         // The request to enter the player's name
         $writer->write('What is your name? -> ');
         $writer->writeln(
-            $this->commandManager->call('setplayer', $reader->read())
+            $this->gameManager->call('setplayer', $reader->read())
                 ->getMessage()
         );
 
@@ -106,9 +82,9 @@ class Game
 
             // If the player has won or entered the "Exit" command,
             // we end the game session
-            if (CommandManager::isFinished()) {
+            if (GameManager::isFinished()) {
                 $writer->writeln(
-                    $this->commandManager->call('bye')->getMessage()
+                    $this->gameManager->call('bye')->getMessage()
                 );
                 break;
             }
@@ -131,8 +107,8 @@ class Game
 
         // Prepare and call the necessary command to execute
         // using parameters, if they exists
-        $this->commandManager->call($command, $params);
+        $this->gameManager->call($command, $params);
         // Get and write the result of the command execution
-        $writer->writeln($this->commandManager->getMessage());
+        $writer->writeln($this->gameManager->getMessage());
     }
 }
