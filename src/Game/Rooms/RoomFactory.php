@@ -8,30 +8,27 @@ use BinaryStudioAcademy\Game\Exceptions\RoomNotFound;
 class RoomFactory
 {
     /**
-     * Create the new Room with the $data
-     * @param  array $data
+     * Create the new Room by the name
+     * @param string $name
      * @return Room
      */
-    public static function create(array $data): Room
+    public static function create(string $name): Room
     {
-        $name = trim($data[1]);
+        $name = ucfirst(trim($name));
         $room = self::isRoomExists($name);
-
-        $room->setup($data);
-
         return $room;
     }
     /**
-     * Checks if there is a room with the name
+     * Checks if there is the room with the name
      * @param  string  $name
      * @return Room
      * @throws RoomNotFound Exception
      */
     protected static function isRoomExists(string $name): Room
     {
-        $room = '\\' . __NAMESPACE__ . '\\' . ucfirst($name);
+        $room = '\\' . __NAMESPACE__ . '\\' . $name;
         if (!class_exists($room) ||
-            !(($room = new $room($name)) instanceof Room)
+            !(($room = new $room) instanceof Room)
         ) {
             throw new RoomNotFound($name);
         }

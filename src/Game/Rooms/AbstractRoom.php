@@ -4,7 +4,7 @@ namespace BinaryStudioAcademy\Game\Rooms;
 
 use BinaryStudioAcademy\Game\Contracts\Room;
 use BinaryStudioAcademy\Game\Contracts\Thing;
-use BinaryStudioAcademy\Game\Exceptions\RoomNotFound;
+use BinaryStudioAcademy\Game\Exceptions\RoomNotAvailable;
 use BinaryStudioAcademy\Game\Exceptions\ThingNotFound;
 
 abstract class AbstractRoom implements Room
@@ -25,9 +25,11 @@ abstract class AbstractRoom implements Room
      */
     protected $availableRooms = [];
 
-    public function __construct(string $name)
+    public function __construct()
     {
-        $this->name = $name;
+        $this->name = strtolower(
+            str_replace(__NAMESPACE__ . "\\", '', get_called_class())
+        );
     }
 
     /**
@@ -51,19 +53,19 @@ abstract class AbstractRoom implements Room
      */
     public function addAvailableRoom(Room $room): Room
     {
-        $this->availableRooms[$room->getName()] = $room;
+        $this->availableRooms[$room->name] = $room;
         return $this;
     }
     /**
      * Get the room, that available for the current one, by its name
      * @param  string $name
      * @return Room
-     * @throws RoomNotFound Exception
+     * @throws RoomNotAvailable Exception
      */
     public function getAvailableRoom(string $name): Room
     {
         if (!isset($this->availableRooms[$name])) {
-            throw new RoomNotFound($name);
+            throw new RoomNotAvailable($name);
         }
         return $this->availableRooms[$name];
     }
@@ -74,7 +76,7 @@ abstract class AbstractRoom implements Room
      */
     public function addThing(Thing $thing): Room
     {
-        $this->things[$thing->getName()][] = $thing;
+        $this->things[$thing->name][] = $thing;
         return $this;
     }
     /**
