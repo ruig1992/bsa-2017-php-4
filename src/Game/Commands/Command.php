@@ -11,6 +11,11 @@ use BinaryStudioAcademy\Game\GameManager;
 abstract class Command
 {
     /**
+     * Is this a system command or not (default No)?
+     * @var bool
+     */
+    const IS_SYSTEM = false;
+    /**
      * Game instance
      * @var Game
      */

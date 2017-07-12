@@ -3,6 +3,7 @@
 namespace BinaryStudioAcademy\Game;
 
 use BinaryStudioAcademy\Game\Commands\Command;
+use BinaryStudioAcademy\Game\Commands\System\SystemCommand;
 use BinaryStudioAcademy\Game\Exceptions\CommandNotFound;
 
 class GameManager
@@ -81,19 +82,44 @@ class GameManager
     }
 
     /**
+     * Call the necessary system command to execute using parameters, if they exists
+     * The system command can not be used by the player, only the system
+     * @param  string $command
+     * @param  array|string  $params
+     * @return $this
+     */
+    public function callSystem(string $command, $params = null): self
+    {
+        try {
+            $this->message = $this->create($command, true)->execute($params);
+
+        } catch (\Exception $e) {
+            $this->message = $e->getMessage();
+        }
+
+        return $this;
+    }
+
+    /**
      * Create the necessary command's instance
      * @param  string $command
+     * @param  bool $isSystem  Is the system command?
      * @return Command
      * @throws CommandNotFound Exception
      */
-    private function create(string $command): Command
+    private function create(string $command, bool $isSystem = false): Command
     {
+        $commandInstance = ucfirst($command);
+        if ($isSystem) {
+            $commandInstance = "System\\{$commandInstance}";
+        }
         $commandInstance = '\\' . __NAMESPACE__ .
-            "\\Commands\\{$command}Command";
+            "\\Commands\\{$commandInstance}Command";
 
         if (!class_exists($commandInstance) ||
             !(($commandInstance = new $commandInstance($this->game))
-                instanceof Command)
+                instanceof Command) ||
+            $isSystem !== $commandInstance::IS_SYSTEM
         ) {
             throw new CommandNotFound($command);
         }

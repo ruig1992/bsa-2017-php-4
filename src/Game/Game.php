@@ -52,13 +52,13 @@ class Game
     {
         // Start the Game. Welcome message...
         $writer->writeln(
-            $this->gameManager->call('start')->getMessage()
+            $this->gameManager->callSystem('start')->getMessage()
         );
 
         // The request to enter the player's name
         $writer->write('What is your name? -> ');
         $writer->writeln(
-            $this->gameManager->call('setplayer', $reader->read())
+            $this->gameManager->callSystem('setplayer', $reader->read())
                 ->getMessage()
         );
 
@@ -71,7 +71,7 @@ class Game
             // we end the game session
             if (GameManager::isFinished()) {
                 $writer->writeln(
-                    $this->gameManager->call('bye')->getMessage()
+                    $this->gameManager->callSystem('bye')->getMessage()
                 );
                 break;
             }

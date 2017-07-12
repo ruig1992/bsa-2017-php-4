@@ -1,8 +1,8 @@
 <?php
 
-namespace BinaryStudioAcademy\Game\Commands;
+namespace BinaryStudioAcademy\Game\Commands\System;
 
-class SetplayerCommand extends Command
+class SetplayerCommand extends SystemCommand
 {
     /**
      * The path to the template file
@@ -17,6 +17,7 @@ class SetplayerCommand extends Command
      */
     public function execute($params = null): string
     {
+        var_dump($params);
         $this->msgTemplate = $this->getFromFile();
         $player = $this->game->player->setName($params);
 

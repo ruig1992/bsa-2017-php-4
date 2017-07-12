@@ -1,8 +1,8 @@
 <?php
 
-namespace BinaryStudioAcademy\Game\Commands;
+namespace BinaryStudioAcademy\Game\Commands\System;
 
-class StartCommand extends Command
+class StartCommand extends SystemCommand
 {
     /**
      * The path to the template file
